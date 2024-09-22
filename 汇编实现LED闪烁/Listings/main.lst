@@ -1,0 +1,54 @@
+A51 MACRO ASSEMBLER  MAIN                                                                 05/31/2024 09:24:39 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\main.obj
+ASSEMBLER INVOKED BY: D:\Keil5\C51\BIN\A51.EXE main.a51 SET(SMALL) DEBUG PRINT(.\Listings\main.lst) OBJECT(.\Objects\mai
+                      n.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1     ORG 0x0000    ; 程序起始地址
+                       2     
+0000                   3     LOOP:
+0000 75A0FE            4       MOV P2, #0xFE    ; 1111 1110给P2.0低电平，点亮
+0003 110C              5       ACALL DELAY1000MS    ; 调用延时子程序，延时1000ms（1s）
+0005 75A0FF            6       MOV P2, #0XFF    ; 1111 1111给P2.0高电平，熄灭
+0008 110C              7       ACALL DELAY1000MS    ; 调用延时子程序，，延时1000ms（1s）
+000A 80F4              8       SJMP LOOP    ; 无条件跳转到LOOP处，实现循环
+                       9     
+000C                  10     DELAY1000MS:                    ;@11.0592MHz
+000C C030             11             PUSH 30H
+000E C031             12             PUSH 31H
+0010 C032             13             PUSH 32H
+0012 753008           14             MOV 30H,#8
+0015 753101           15             MOV 31H,#1
+0018 7532EC           16             MOV 32H,#236
+001B                  17     NEXT:
+001B D532FD           18             DJNZ 32H,NEXT
+001E D531FA           19             DJNZ 31H,NEXT
+0021 D530F7           20             DJNZ 30H,NEXT
+0024 D032             21             POP 32H
+0026 D031             22             POP 31H
+0028 D030             23             POP 30H
+002A 22               24             RET
+                      25     
+                      26     END    ; 程序结束
+A51 MACRO ASSEMBLER  MAIN                                                                 05/31/2024 09:24:39 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+DELAY1000MS. . . .  C ADDR   000CH   A   
+LOOP . . . . . . .  C ADDR   0000H   A   
+NEXT . . . . . . .  C ADDR   001BH   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

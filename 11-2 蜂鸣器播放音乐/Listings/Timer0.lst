@@ -1,0 +1,53 @@
+C51 COMPILER V9.60.7.0   TIMER0                                                            03/14/2024 22:44:59 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE TIMER0
+OBJECT MODULE PLACED IN .\Objects\Timer0.obj
+COMPILER INVOKED BY: D:\Keil5\C51\BIN\C51.EXE Timer0.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\Time
+                    -r0.lst) TABS(2) OBJECT(.\Objects\Timer0.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          
+   3          void Timer0Init()   //1毫秒@12.000MHz
+   4          {
+   5   1        TMOD &= 0xF0;   
+   6   1        TMOD |= 0x01;   //设置定时器模式为模式1
+   7   1        TL0 = 0x18;   
+   8   1        TH0 = 0xFC;   //设置定时初值
+   9   1        TF0 = 0;    //清除TF0标志，TF0为T0中断请求标志位
+  10   1        TR0 = 1;    //定时器0开始计时，TR0为定时器0运行控制位，TR0=1允许T0计数，TR0=0不允�
+             -��
+  11   1        ET0=1;  //允许中断
+  12   1        EA=1;   //EA=1，CPU允许中断；EA=0，CPU禁止中断
+  13   1        PT0=0;  //中断优先级设置
+  14   1      }
+  15          
+  16          /*定时器中断函数模板*/
+  17          /*
+  18          void Timer0_Routine() interrupt 1{
+  19            static unsigned int T0count;
+  20            TL0 = 0x18;   
+  21            TH0 = 0xFC; 
+  22            T0count++;
+  23            if(T0count>=1000){
+  24              T0count=0;
+  25            }
+  26          }
+  27          
+  28          */
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     23    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

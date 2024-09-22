@@ -1,0 +1,26 @@
+ORG 0x0000    ; 程序起始地址
+
+LOOP:
+  MOV P2, #0xFE    ; 1111 1110给P2.0低电平，点亮
+  ACALL DELAY1000MS    ; 调用延时子程序，延时1000ms（1s）
+  MOV P2, #0XFF    ; 1111 1111给P2.0高电平，熄灭
+  ACALL DELAY1000MS    ; 调用延时子程序，，延时1000ms（1s）
+  SJMP LOOP    ; 无条件跳转到LOOP处，实现循环
+
+DELAY1000MS:			;@11.0592MHz
+	PUSH 30H
+	PUSH 31H
+	PUSH 32H
+	MOV 30H,#8
+	MOV 31H,#1
+	MOV 32H,#236
+NEXT:
+	DJNZ 32H,NEXT
+	DJNZ 31H,NEXT
+	DJNZ 30H,NEXT
+	POP 32H
+	POP 31H
+	POP 30H
+	RET
+
+END    ; 程序结束

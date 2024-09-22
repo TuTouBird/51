@@ -1,0 +1,64 @@
+C51 COMPILER V9.60.7.0   MAIN                                                              03/06/2024 19:47:02 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: D:\Keil5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\main.l
+                    -st) TABS(2) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          #include "LCD1602.h"
+   3          #include "Timer0.h"
+   4          
+   5          unsigned int hour,min,sec;
+   6          
+   7          void Timer0_Routine() interrupt 1{
+   8   1        static unsigned int T0count;
+   9   1        TL0 = 0x18;   
+  10   1        TH0 = 0xFC; 
+  11   1        T0count++;
+  12   1        if(T0count>=1000){
+  13   2          T0count=0;
+  14   2          sec++;
+  15   2          if(sec==60){
+  16   3            sec=0;
+  17   3            min++;
+  18   3            if(min==60){
+  19   4              min=0;
+  20   4              hour++;
+  21   4              if(hour==24){
+  22   5                hour=0;
+  23   5              }
+  24   4            }
+  25   3          }
+  26   2        }
+  27   1      }
+  28          
+  29          void main(){
+  30   1        Timer0Init();
+  31   1        LCD_Init();
+  32   1        LCD_ShowString(1,1,"Clock:");
+  33   1        LCD_ShowString(2,3,":");
+  34   1        LCD_ShowString(2,6,":");
+  35   1        while(1){
+  36   2          LCD_ShowNum(2,1,hour,2);
+  37   2          LCD_ShowNum(2,4,min,2);
+  38   2          LCD_ShowNum(2,7,sec,2);
+  39   2        }
+  40   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    181    ----
+   CONSTANT SIZE    =      9    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      8    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

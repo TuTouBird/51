@@ -1,0 +1,90 @@
+C51 COMPILER V9.60.7.0   MAIN                                                              02/28/2024 19:05:06 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: D:\Keil5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\main.l
+                    -st) TABS(2) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          #include "Delay.h"
+   3          #include "LCD1602.h"
+   4          #include "MatrixKey.h"
+   5          
+   6          unsigned int KeyNum;
+   7          unsigned int Password,cnt,flag;
+   8          
+   9          void main(){
+  10   1        LCD_Init();
+  11   1        
+  12   1        while(1){
+  13   2          KeyNum=MatrixKey();
+  14   2          
+  15   2          if(KeyNum==16&&flag==0) {LCD_ShowString(1,1,"Password:");flag=1;}
+  16   2          
+  17   2          else if(KeyNum&&flag==1){
+  18   3            
+  19   3            if(KeyNum==11){
+  20   4              if(cnt){
+  21   5                  LCD_ShowString(1,cnt+9," ");
+  22   5                  cnt--;
+  23   5                  Password/=10;
+  24   5              }
+  25   4            }
+  26   3            
+  27   3            else if(KeyNum<=10&&cnt<4){
+  28   4              Password*=10;
+  29   4              Password+=KeyNum%10;
+  30   4              cnt++;
+  31   4              LCD_ShowChar(1,9+cnt,'*');
+  32   4            }
+  33   3            
+  34   3            else if(KeyNum==12){
+  35   4              if(Password==8888){
+  36   5                LCD_ShowString(2,1,"OK!   ");
+  37   5                Password=0;
+  38   5                cnt=0;
+  39   5                Delay(1000);
+  40   5                LCD_ShowString(1,1," Genshin impact ");
+  41   5                LCD_ShowString(2,1,"     start!     ");
+  42   5              }
+  43   4              else{
+  44   5                LCD_ShowString(2,1,"ERROR!");
+  45   5                Password=0;
+  46   5                cnt=0;
+  47   5                Delay(1000);
+  48   5                LCD_ShowString(2,1,"      ");
+  49   5                LCD_ShowString(1,10,"    ");
+  50   5              }
+  51   4            }
+  52   3            
+  53   3            else if(KeyNum==13){
+  54   4              LCD_ShowString(1,1,"      BYE!      ");
+C51 COMPILER V9.60.7.0   MAIN                                                              02/28/2024 19:05:06 PAGE 2   
+
+  55   4              LCD_ShowString(2,1,"    jia na!     ");
+  56   4              Delay(1500);
+  57   4              flag=0;
+  58   4              break;
+  59   4            }
+  60   3            
+  61   3          }
+  62   2        }
+  63   1        
+  64   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    369    ----
+   CONSTANT SIZE    =    106    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      8    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
